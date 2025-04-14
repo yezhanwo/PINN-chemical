@@ -119,19 +119,22 @@ with torch.no_grad():
     Y_pred=model(X_test)
     pred_mse=criterion(Y_pred,Y_test)
     print(f'predict_loss={pred_mse}')
-
 import matplotlib.pyplot as plt
 
-# Plot the comparison
-plt.figure(figsize=(10, 6))
-plt.plot(Y_test.numpy(), label='Actual SOC', color='blue')
-plt.plot(Y_pred.numpy(), label='Predicted SOC', color='red', linestyle='--')
-plt.xlabel('Sample Index')
-plt.ylabel('SOC')
-plt.title('Comparison of Actual and Predicted SOC on Test Set')
+# Use sample indices for the x-axis
+sample_indices = range(len(Y_test))
+
+plt.figure(figsize=(14, 6))
+plt.plot(sample_indices, Y_test.numpy(), label='True SOC', color='blue', linewidth=1.5)
+plt.plot(sample_indices, Y_pred.detach().numpy(), label='Predicted SOC', color='red', linestyle='--', linewidth=1.5)
+plt.xlabel('Sample Index', fontsize=12)
+plt.ylabel('SOC', fontsize=12)
+plt.title('True vs Predicted SOC', fontsize=14)
 plt.legend()
-plt.grid(True)
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.tight_layout()
 plt.show()
+
 
 
 
